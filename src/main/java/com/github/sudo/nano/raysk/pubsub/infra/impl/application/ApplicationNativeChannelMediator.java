@@ -4,6 +4,7 @@ import com.github.sudo.nano.raysk.pubsub.domain.ChannelMediator;
 import com.github.sudo.nano.raysk.pubsub.domain.Message;
 import com.github.sudo.nano.raysk.pubsub.domain.Subscriber;
 import com.github.sudo.nano.raysk.pubsub.infra.impl.application.transmission.InProcessTransmissionHandler;
+import com.github.sudo.nano.raysk.pubsub.infra.impl.application.transmission.TransmissionHandler;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 class ApplicationNativeChannelMediator<T extends Serializable> implements ChannelMediator<T> {
 
+  private static final TransmissionHandler IN_PROCESS_TRANSMISSION_HANDLER =
+      new InProcessTransmissionHandler();
   private final String channelName;
   private final List<Subscription<T>> subscriptions;
 
@@ -37,7 +40,7 @@ class ApplicationNativeChannelMediator<T extends Serializable> implements Channe
 
   @Override
   public void subscribe(Subscriber<T> subscriber) throws IOException {
-    this.subscriptions.add(new Subscription<>(subscriber, new InProcessTransmissionHandler()));
+    this.subscriptions.add(new Subscription<>(subscriber, IN_PROCESS_TRANSMISSION_HANDLER));
   }
 
   @Override
