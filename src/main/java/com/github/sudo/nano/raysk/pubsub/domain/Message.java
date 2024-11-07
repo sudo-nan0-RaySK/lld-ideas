@@ -25,4 +25,8 @@ public class Message<T extends Serializable> extends EventObject {
   public T getMessageData() {
     return eventData;
   }
+
+  public Message<T> copy() {
+    return new Message<>(getSource(), eventData);
+  }
 }

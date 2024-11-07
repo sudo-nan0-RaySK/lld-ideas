@@ -31,7 +31,7 @@ class ApplicationNativeChannelMediator<T extends Serializable> implements Channe
   @Override
   public void publish(Message<T> message) throws IOException {
     for (Subscription<T> subscription : subscriptions) {
-      subscription.deliver(message);
+      subscription.deliver(message.copy());
     }
   }
 
